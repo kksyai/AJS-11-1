@@ -8,33 +8,34 @@ class Team {
       new Character('Воин', 'Warior', 60, 6, 70, 20),
     ];
   }
-}
-const person = new Team();
 
-const iterator = function () { // итератор
-  let index = 0;
-  return {
-    next() {
-      if (index > 2) {
+  createTeam() { // итератор
+    let index = 0;
+    const item = this.team;
+    return {
+      next() {
+        if (index > 2) {
+          return {
+            value: undefined,
+            done: true,
+          };
+        }
         return {
-          value: undefined,
-          done: true,
+          value: item[index++],
+          done: false,
         };
-      }
-      index += 1;
-      return {
-        value: person.team[index],
-        done: false,
-      };
-    },
-  };
-};
+      },
+    };
+  }
+}
 
-const createTeam = iterator();
-console.log(createTeam.next()); // маг
-console.log(createTeam.next()); // войн
-console.log(createTeam.next()); // value: undefined, done: false (???)
-console.log(createTeam.next()); // value: undefined, done: true
+const person = new Team();
+const team = person.createTeam();
+
+console.log(team.next());
+console.log(team.next());
+console.log(team.next());
+console.log(team.next());
 
 /* Для поддержки логики необходимо сделать итерируемыми объекты класса Team — команда,
 в которой хранятся персонажи противника на текущий раунд.
